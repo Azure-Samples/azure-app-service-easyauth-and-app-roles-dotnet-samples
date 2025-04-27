@@ -1,0 +1,48 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+    var nameClaim = User.Identities
+        .SelectMany(identity => identity.Claims)
+        .FirstOrDefault(c => c.Type == "name" || c.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name")
+        ?.Value;
+}
+
+    <section class="row mb-4" aria-labelledby="aspnetTitle">
+        <h1 id="title">
+            Welcome @nameClaim!
+        </h1>
+    </section>
+
+    <section class="row">
+        <h2>Attributes extracted from User.Identities:</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Claim Type</th>
+                    <th>Claim Value</th>
+                </tr>
+            </thead>
+            <tbody>
+            @if (User.Identities != null)
+                {
+                    @foreach (var identities in User.Identities)
+                    {
+                    foreach (var claim in identities.Claims)
+                        {
+                            <tr>
+                                <td>@claim.Type</td>
+                                <td>@claim.Value</td>
+                            </tr>
+                        }
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2">No claims available</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>

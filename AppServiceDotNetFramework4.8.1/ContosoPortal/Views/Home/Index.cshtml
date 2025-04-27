@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    var claims = ViewBag.Claims as IEnumerable<System.Security.Claims.Claim>;
+    var nameClaim = claims?.FirstOrDefault(c => c.Type == "name")?.Value;
+}
+
+<main>
+    <section class="row mb-4" aria-labelledby="aspnetTitle">
+        <h1 id="title">
+            Welcome @nameClaim!
+        </h1>
+    </section>
+
+    <section class="row">
+        <h2>Attributes extracted from ClaimsPrincipal:</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Claim Type</th>
+                    <th>Claim Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (claims != null)
+                {
+                    foreach (var claim in ViewBag.claims)
+                    {
+                        <tr>
+                            <td>@claim.Type</td>
+                            <td>@claim.Value</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="2">No claims available</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+</main>

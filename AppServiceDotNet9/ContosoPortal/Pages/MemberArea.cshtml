@@ -1,0 +1,29 @@
+﻿@page
+@model MemberAreaModel
+@{
+    ViewData["Title"] = "Member Area";
+
+    // Extract roles from the user's claims
+    var roles = User.Claims
+        .Where(c => c.Type == "role" || c.Type == "roles")
+        .Select(c => c.Value)
+        .ToList();
+}
+<h1>@ViewData["Title"]</h1>
+<h2>Only users with the app role Member can see this page.</h2>
+
+<p>Your logged-in user currently has the roles of:</p>
+
+@if (roles.Any())
+{
+    <ul>
+        @foreach (var role in roles)
+        {
+            <li>@role</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No roles assigned.</p>
+}

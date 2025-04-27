@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Member Area";
+}
+<main aria-labelledby="title">
+    <h2 id="title">@ViewBag.Title.</h2>
+    <h3>@ViewBag.Message</h3>
+
+    <p>Your logged-in user currently has the roles of:</p>
+    <ul>
+        @{
+            var roles = ((System.Security.Claims.ClaimsPrincipal)User).Claims
+                .Where(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")
+                .Select(c => c.Value);
+
+            if (roles.Any())
+            {
+                foreach (var role in roles)
+                {
+                    <li>@role</li>
+                }
+            }
+            else
+            {
+                <li>No roles assigned.</li>
+            }
+        }
+    </ul>
+</main>
